@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>معسكر البوصلة ٢٠٢٦ - المرشدات والرائدات</title>
+  <meta name="description" content="معسكر المرشدات والرائدات ٢٠٢٦ - البوصلة - مجموعة جنود المسيح الكشفية، في الفترة من ١٤-١٧ يوليو بمزرعة كيرلومينا" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Floating particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ===== STICKY HEADER ===== -->
+  <header class="sticky-header" id="main-header">
+    <img src="group-logo.png" alt="مجموعة جنود المسيح الكشفية" class="hdr-logo" id="hdr-group" />
+    <div class="hdr-center">
+      <span class="hdr-title">معسكر البوصلة</span>
+      <span class="hdr-sub">المرشدات والرائدات ٢٠٢٦</span>
+    </div>
+    <img src="WhatsApp Image 2026-07-12 at 22.52.36.jpeg" alt="لوجو معسكر البوصلة" class="hdr-logo" id="hdr-camp" />
+  </header>
+
+  <!-- ===== SCREEN 1: LANDING ===== -->
+  <section id="screen-landing" class="screen active">
+    <div class="compass-wrap">
+      <svg class="compass-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="#D4A843" stroke-width="2" opacity="0.5"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#D4A843" stroke-width="1" opacity="0.3"/>
+        <!-- N S E W labels -->
+        <text x="100" y="18" text-anchor="middle" fill="#D4A843" font-size="14" font-weight="bold">N</text>
+        <text x="100" y="192" text-anchor="middle" fill="#D4A843" font-size="14" font-weight="bold">S</text>
+        <text x="190" y="105" text-anchor="middle" fill="#D4A843" font-size="14" font-weight="bold">E</text>
+        <text x="10" y="105" text-anchor="middle" fill="#D4A843" font-size="14" font-weight="bold">W</text>
+        <!-- Needle -->
+        <polygon points="100,25 95,100 100,115 105,100" fill="#E74C3C" class="needle-n"/>
+        <polygon points="100,175 95,100 100,115 105,100" fill="#F5E6C8" opacity="0.8"/>
+        <circle cx="100" cy="100" r="6" fill="#D4A843"/>
+        <!-- Tick marks -->
+        <g stroke="#D4A843" stroke-width="1" opacity="0.4">
+          <line x1="100" y1="8" x2="100" y2="20"/>
+          <line x1="100" y1="180" x2="100" y2="192"/>
+          <line x1="8" y1="100" x2="20" y2="100"/>
+          <line x1="180" y1="100" x2="192" y2="100"/>
+        </g>
+      </svg>
+    </div>
+    <div class="verse-block">
+      <p class="verse-text" id="verse-text"></p>
+      <p class="verse-ref">إيشعياء ٢٧ : ٦</p>
+    </div>
+    <p class="camp-dates">١٤ — ١٧ يوليو ٢٠٢٦ · مزرعة كيرلومينا</p>
+    <button class="btn-gold btn-enter" id="btn-enter" onclick="showTroupes()">
+      <span>ادخل المعسكر</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </section>
+
+  <!-- ===== SCREEN 2: TROUPE SELECTION ===== -->
+  <section id="screen-troupes" class="screen">
+    <h1 class="section-title">اختار طليعتك</h1>
+    <p class="section-sub">ادخل الباسورد الخاص بطليعتك</p>
+    <div class="troupes-grid">
+      <!-- Troupe 1 -->
+      <div class="troupe-card" id="card-1" data-troupe="1">
+        <div class="troupe-number">١</div>
+        <div class="troupe-label">طليعة ١</div>
+        <div class="troupe-pw-wrap">
+          <input type="password" class="troupe-pw-input" id="pw-1" placeholder="••••" maxlength="4" />
+          <button class="btn-unlock" onclick="tryUnlock(1)">دخول</button>
+        </div>
+        <div class="troupe-error" id="err-1"></div>
+      </div>
+      <!-- Troupe 2 -->
+      <div class="troupe-card" id="card-2" data-troupe="2">
+        <div class="troupe-number">٢</div>
+        <div class="troupe-label">طليعة ٢</div>
+        <div class="troupe-pw-wrap">
+          <input type="password" class="troupe-pw-input" id="pw-2" placeholder="••••" maxlength="4" />
+          <button class="btn-unlock" onclick="tryUnlock(2)">دخول</button>
+        </div>
+        <div class="troupe-error" id="err-2"></div>
+      </div>
+      <!-- Troupe 3 -->
+      <div class="troupe-card" id="card-3" data-troupe="3">
+        <div class="troupe-number">٣</div>
+        <div class="troupe-label">طليعة ٣</div>
+        <div class="troupe-pw-wrap">
+          <input type="password" class="troupe-pw-input" id="pw-3" placeholder="••••" maxlength="4" />
+          <button class="btn-unlock" onclick="tryUnlock(3)">دخول</button>
+        </div>
+        <div class="troupe-error" id="err-3"></div>
+      </div>
+      <!-- Troupe 4 -->
+      <div class="troupe-card" id="card-4" data-troupe="4">
+        <div class="troupe-number">٤</div>
+        <div class="troupe-label">طليعة ٤</div>
+        <div class="troupe-pw-wrap">
+          <input type="password" class="troupe-pw-input" id="pw-4" placeholder="••••" maxlength="4" />
+          <button class="btn-unlock" onclick="tryUnlock(4)">دخول</button>
+        </div>
+        <div class="troupe-error" id="err-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCREEN 3: DAY SELECTION ===== -->
+  <section id="screen-days" class="screen">
+    <button class="btn-back" onclick="showTroupes()">← رجوع</button>
+    <h1 class="section-title" id="days-troupe-title">طليعة ١</h1>
+    <p class="section-sub">اختار اليوم</p>
+    <div class="days-grid">
+      <button class="day-card" id="day-btn-1" onclick="selectDay(1)">
+        <span class="day-icon">🌅</span>
+        <span class="day-label">اليوم الأول</span>
+        <span class="day-date">١٤ يوليو</span>
+      </button>
+      <button class="day-card" id="day-btn-2" onclick="selectDay(2)">
+        <span class="day-icon">☀️</span>
+        <span class="day-label">اليوم الثاني</span>
+        <span class="day-date">١٥ يوليو</span>
+      </button>
+      <button class="day-card" id="day-btn-3" onclick="selectDay(3)">
+        <span class="day-icon">🌙</span>
+        <span class="day-label">اليوم الثالث</span>
+        <span class="day-date">١٦ يوليو</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== SCREEN 4: STATIONS TIMELINE ===== -->
+  <section id="screen-stations" class="screen">
+    <div class="stations-header">
+      <button class="btn-back" onclick="showDays()">← رجوع</button>
+      <div class="stations-title-wrap">
+        <h1 class="stations-title" id="stations-title">طليعة ١ — اليوم الأول</h1>
+      </div>
+      <button class="btn-reset-inline" id="btn-reset-inline" onclick="promptReset()">↺ إعادة</button>
+    </div>
+    <div class="timeline-wrap" id="timeline-wrap">
+      <!-- Stations injected by JS -->
+    </div>
+  </section>
+
+  <!-- ===== MODAL: Password Gate (1234) ===== -->
+  <div class="modal-overlay" id="modal-gate" style="display:none">
+    <div class="modal-box">
+      <div class="modal-icon">🔐</div>
+      <h2 class="modal-title">ادخل الباسورد</h2>
+      <p class="modal-sub">اكتب الباسورد عشان تفتح المحطة الجاية</p>
+      <input type="password" class="modal-input" id="gate-input" placeholder="••••" maxlength="4" />
+      <div class="modal-error" id="gate-error"></div>
+      <div class="modal-btns">
+        <button class="btn-gold" onclick="checkGate()">تأكيد</button>
+        <button class="btn-cancel" onclick="closeModal('modal-gate')">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Reset ===== -->
+  <div class="modal-overlay" id="modal-reset" style="display:none">
+    <div class="modal-box">
+      <div class="modal-icon">🔄</div>
+      <h2 class="modal-title">إعادة تحميل</h2>
+      <p class="modal-sub">ادخل الباسورد الخاص بإعادة التحميل</p>
+      <input type="password" class="modal-input" id="reset-input" placeholder="••••" maxlength="4" />
+      <div class="modal-error" id="reset-error"></div>
+      <div class="modal-btns">
+        <button class="btn-gold" onclick="checkReset()">تأكيد</button>
+        <button class="btn-cancel" onclick="closeModal('modal-reset')">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUCCESS TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Firebase SDK -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
