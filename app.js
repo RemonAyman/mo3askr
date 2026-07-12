@@ -279,6 +279,32 @@ window.selectDay = function(dayNum) {
 };
 
 // =============================================
+// HELPER TO UPDATE STATION HEADER AND DOT WITH BLUR/PRIVACY
+// =============================================
+function updateStationHeaderAndDot(idx, type, name) {
+  const item = document.getElementById(`station-item-${idx}`);
+  if (!item) return;
+
+  const dot = item.querySelector('.station-dot');
+  const nameSpan = item.querySelector('.station-name');
+  const numLabel = ArabicNums[idx + 1] || (idx + 1);
+
+  if (type === 'done') {
+    if (dot) dot.innerHTML = `${icon(name)}<span class="station-dot-num">${numLabel}</span>`;
+    if (nameSpan) nameSpan.innerHTML = `<span class="reveal-fade">${icon(name)} ${name}</span>`;
+  } else if (type === 'active-revealed') {
+    if (dot) dot.innerHTML = `${icon(name)}<span class="station-dot-num">${numLabel}</span>`;
+    if (nameSpan) nameSpan.innerHTML = `<span class="reveal-fade">${icon(name)} ${name}</span>`;
+  } else if (type === 'active-hidden') {
+    if (dot) dot.innerHTML = `❓<span class="station-dot-num">${numLabel}</span>`;
+    if (nameSpan) nameSpan.innerHTML = `<span class="reveal-fade">❓ خربش لمعرفة المحطة</span>`;
+  } else if (type === 'locked') {
+    if (dot) dot.innerHTML = `🔒<span class="station-dot-num">${numLabel}</span>`;
+    if (nameSpan) nameSpan.innerHTML = `<span class="reveal-fade">🔒 المحطة ${numLabel}</span>`;
+  }
+}
+
+// =============================================
 // RENDER STATIONS TIMELINE
 // =============================================
 function renderStations(troupeNum, dayNum) {
@@ -303,13 +329,10 @@ function renderStations(troupeNum, dayNum) {
         : '<span class="station-status-badge badge-locked">🔒 مقفول</span>';
 
     item.innerHTML = `
-      <div class="station-dot">
-        ${icon(name)}
-        <span class="station-dot-num">${ArabicNums[i + 1] || (i + 1)}</span>
-      </div>
+      <div class="station-dot"></div>
       <div class="station-card" id="sc-${i}">
         <div class="station-name-bar">
-          <span class="station-name">${icon(name)} ${name}</span>
+          <span class="station-name"></span>
           ${statusBadge}
         </div>
         <div id="sc-body-${i}">
@@ -319,6 +342,14 @@ function renderStations(troupeNum, dayNum) {
       </div>
     `;
     wrap.appendChild(item);
+
+    if (isDone) {
+      updateStationHeaderAndDot(i, 'done', name);
+    } else if (isActive) {
+      updateStationHeaderAndDot(i, 'active-hidden', name);
+    } else {
+      updateStationHeaderAndDot(i, 'locked', name);
+    }
 
     if (isActive) {
       setTimeout(() => initScratch(i, name, troupeNum, dayNum), 100);
@@ -409,6 +440,7 @@ function initScratch(idx, name, troupeNum, dayNum) {
       canvas.style.display = 'none';
       const btn = document.getElementById(`confirm-btn-${idx}`);
       if (btn) btn.style.display = 'block';
+      updateStationHeaderAndDot(idx, 'active-revealed', name);
     }
   }
 
@@ -464,8 +496,11 @@ async function completeStation(idx) {
   if (nameBar) nameBar.outerHTML = '<span class="station-status-badge badge-done">✓ تمت</span>';
   if (body)    body.innerHTML = '<div class="station-done-content">✅ تمت المحطة بنجاح!</div>';
 
-  // Unlock next station
+  // Update header and dot for the completed station to be shown fully
   const stations = ROUTES[currentTroupe].days[currentDay];
+  updateStationHeaderAndDot(idx, 'done', stations[idx]);
+
+  // Unlock next station
   const nextIdx = idx + 1;
   if (nextIdx < stations.length) {
     const nextItem = document.getElementById(`station-item-${nextIdx}`);
@@ -477,6 +512,8 @@ async function completeStation(idx) {
       nextBody.innerHTML = buildScratchArea(nextIdx, stations[nextIdx]);
       setTimeout(() => initScratch(nextIdx, stations[nextIdx], currentTroupe, currentDay), 100);
     }
+    // Update next station header to show active placeholder
+    updateStationHeaderAndDot(nextIdx, 'active-hidden', stations[nextIdx]);
     // Scroll to next
     setTimeout(() => nextItem?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
   } else {

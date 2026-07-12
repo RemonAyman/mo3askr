@@ -444,7 +444,20 @@ body {
 }
 .station-item.done .station-card { border-color: rgba(39,174,96,0.3); }
 .station-item.active-station .station-card { border-color: rgba(212,168,67,0.4); box-shadow: var(--shadow-gold); }
-.station-item.locked .station-card { opacity: 0.45; filter: blur(1px); }
+.station-item.locked .station-card { opacity: 0.45; filter: blur(2px); }
+
+/* Fade-in animation for revealed text */
+.reveal-fade {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  animation: revealFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes revealFadeIn {
+  from { opacity: 0; transform: translateY(-4px); filter: blur(3px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
 
 .station-name-bar {
   display: flex;
