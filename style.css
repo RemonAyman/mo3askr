@@ -13,8 +13,8 @@
   --radius: 16px;
   --radius-sm: 10px;
   --shadow-gold: 0 0 30px rgba(212,168,67,0.25);
-  --header-h: 72px;
-  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+  --header-h: 80px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
 }
 
 /* ===== RESET ===== */
@@ -47,36 +47,43 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background: rgba(13,8,4,0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(212,168,67,0.2);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  background: rgba(13,8,4,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(212,168,67,0.25);
+  box-shadow: 0 2px 24px rgba(0,0,0,0.6);
+  will-change: transform;
 }
 .hdr-logo {
-  height: 52px;
-  width: 52px;
+  height: 62px;
+  width: 62px;
   object-fit: contain;
   border-radius: 50%;
-  border: 2px solid rgba(212,168,67,0.4);
-  background: rgba(212,168,67,0.05);
-  transition: transform var(--transition);
+  border: 2px solid rgba(212,168,67,0.5);
+  background: rgba(212,168,67,0.07);
+  transition: transform var(--transition), box-shadow var(--transition);
+  flex-shrink: 0;
 }
-.hdr-logo:hover { transform: scale(1.08) rotate(5deg); }
-#hdr-camp { border-radius: 10px; }
-.hdr-center { text-align: center; flex: 1; }
+.hdr-logo:hover { transform: scale(1.1) rotate(5deg); box-shadow: 0 0 18px rgba(212,168,67,0.5); }
+#hdr-camp { border-radius: 12px; }
+.hdr-center { text-align: center; flex: 1; min-width: 0; padding: 0 8px; }
 .hdr-title {
   display: block;
   font-family: 'Amiri', serif;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
   font-weight: 700;
   color: var(--gold);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .hdr-sub {
   display: block;
-  font-size: 0.72rem;
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
   color: rgba(245,230,200,0.55);
   letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 /* ===== SCREENS ===== */
@@ -594,14 +601,38 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(212,168,67,0.4); border-radius: 3px; }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  :root { --header-h: 72px; }
+  .hdr-logo { height: 54px; width: 54px; }
+  .troupes-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .stations-header { flex-wrap: wrap; gap: 10px; }
+  .stations-title { font-size: 1.1rem; }
+}
 @media (max-width: 600px) {
-  .sticky-header { padding: 0 12px; }
-  .hdr-logo { height: 42px; width: 42px; }
-  .hdr-title { font-size: 1.05rem; }
-  .screen { padding-left: 14px; padding-right: 14px; }
-  .modal-box { padding: 28px 20px; }
+  :root { --header-h: 68px; }
+  .sticky-header { padding: 0 10px; }
+  .hdr-logo { height: 48px; width: 48px; }
+  .screen { padding-left: 12px; padding-right: 12px; }
+  .modal-box { padding: 24px 16px; width: 95%; }
   .timeline-wrap::before { display: none; }
-  .station-dot { width: 46px; height: 46px; font-size: 1.1rem; }
-  .days-grid { flex-direction: column; align-items: center; }
-  .day-card { max-width: 100%; width: 100%; flex-direction: row; padding: 20px; justify-content: flex-start; }
+  .station-dot { width: 44px; height: 44px; font-size: 1.05rem; }
+  .station-item { gap: 10px; }
+  .station-name { font-size: 0.95rem; }
+  .days-grid { flex-direction: column; align-items: stretch; }
+  .day-card { max-width: 100%; width: 100%; flex-direction: row; padding: 16px 20px; justify-content: flex-start; gap: 14px; }
+  .day-icon { font-size: 1.8rem; }
+  .troupes-grid { grid-template-columns: 1fr; max-width: 360px; }
+  .troupe-number { font-size: 2.8rem; }
+  .verse-text { font-size: 1.5rem; }
+  .compass-wrap { width: min(200px, 60vw); }
+  .btn-enter { font-size: 1rem; padding: 14px 28px; }
+}
+@media (max-width: 380px) {
+  .hdr-logo { height: 42px; width: 42px; }
+  .hdr-title { font-size: 0.95rem; }
+  .troupes-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 900px) {
+  .troupes-grid { grid-template-columns: repeat(2, 280px); }
+  .days-grid { flex-wrap: nowrap; }
 }
