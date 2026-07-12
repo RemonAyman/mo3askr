@@ -1,0 +1,17 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // السماح بالقراءة والكتابة العامة لتقدم الطلائع (لأن المعسكر لا يستخدم Firebase Auth حالياً بل باسوردات داخلية)
+    match /troupes/{troupeId}/progress/{dayId} {
+      allow read, write: if true;
+    }
+
+    // السماح بإضافة السجلات (Logs) فقط لمنع تعديلها أو مسحها من الكلاينت
+    match /logs/{logId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+  }
+}
